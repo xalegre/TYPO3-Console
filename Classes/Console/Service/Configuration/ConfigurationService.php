@@ -218,6 +218,9 @@ class ConfigurationService implements SingletonInterface
                     case 'string':
                         $value = (string)$value;
                         break;
+                    case 'array':
+                        $value = array_map('trim', explode(',', $value));
+                        break;
                     default:
                         // We don't know any type conversion, so we better exit
                         throw new TypesAreNotConvertibleException(sprintf('Unknown target type "%s"', $targetType), 1477778705);
@@ -262,10 +265,10 @@ class ConfigurationService implements SingletonInterface
      */
     private function isTypeConvertible($targetType, $actualType)
     {
-        if (in_array($targetType, ['array', 'object', 'resource'], true)) {
+        if (in_array($targetType, ['object', 'resource'], true)) {
             return false;
         }
-        if (in_array($actualType, ['array', 'object', 'resource'], true)) {
+        if (in_array($actualType, ['object', 'resource'], true)) {
             return false;
         }
 
